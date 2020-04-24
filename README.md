@@ -5,6 +5,6 @@
  Redis
 	执行下面命令获取redis包 需要到GOPATH路劲下执行  我的这里时cd到GoProgram执行go get github.com/garyburd/redigo/redis  
 	go get github.com/garyburd/redigo/redis   
-    import "github.com/garyburd/redigo/redis"
+    	import "github.com/garyburd/redigo/redis"
 
-	连接池设置及使用
+
