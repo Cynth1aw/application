@@ -7,4 +7,8 @@
 	go get github.com/garyburd/redigo/redis   
     	import "github.com/garyburd/redigo/redis"
 
+编译client
+	PS D:\GoProgram> go build -o client.exe  application/client
 
+编译服务器
+	PS D:\GoProgram> go build -o server.exe application/server
