@@ -7,6 +7,10 @@
 go get github.com/garyburd/redigo/redis   
 import "github.com/garyburd/redigo/redis"
 
+# Mysql
+redis数据持久化与写入mysql
+kingshard框架实现Mysql中间件
+
 # 编译client
 PS D:\GoProgram> go build -o client.exe  application/client
 
