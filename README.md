@@ -9,7 +9,7 @@ import "github.com/garyburd/redigo/redis"
 
 # Mysql
 redis数据持久化与写入mysql   
-kingshard框架实现Mysql中间件
+引入数据库中间件kingshard实现Mysql数据库服务
 
 # 编译client
 PS D:\GoProgram> go build -o client.exe  application/client
