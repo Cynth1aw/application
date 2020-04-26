@@ -3,6 +3,7 @@ package main
 import (
 	"net"
 	"fmt"
+	"time"
 	"encoding/binary"
 	"encoding/json"
 	"application/common/message"
@@ -50,5 +51,16 @@ func signIn(userId int, userPwd string) (err error) {
 		fmt.Println("conn.Write() err")
 		return
 	}
+
+	// 发送真实消息
+	_, err = conn.Write(data)
+	if err != nil {
+		fmt.Println("conn.Write() err")
+		return
+	}
+
+	// 休眠20s
+	time.Sleep(20 * time.Second)
+	
 	return 
 }
