@@ -3,7 +3,7 @@ package main
 import (
 	"net"
 	"fmt"
-	"time"
+	_"time"
 	"encoding/binary"
 	"encoding/json"
 	"application/common/message"
@@ -40,8 +40,7 @@ func signIn(userId int, userPwd string) (err error) {
 		return
 	}
 
-	// 先把data的长度发过去
-	// 把长度转成一个切片
+	// 先把data的长度发过去  把长度转成一个切片
 	var pkgLen uint32
 	pkgLen = uint32(len(data))
 	var buf [4]byte
@@ -60,7 +59,18 @@ func signIn(userId int, userPwd string) (err error) {
 	}
 
 	// 休眠20s
-	time.Sleep(20 * time.Second)
-	
+	// time.Sleep(20 * time.Second)
+	mes, err = readpkg(conn)
+	if err != nil {
+		fmt.Println("client readpkg() err", err)
+		return
+	}
+	var signInResMes message.SignInResMes
+	err = json.Unmarshal([]byte(mes.Data), &signInResMes)
+	if signInResMes.Code == 200 {
+		fmt.Println("signin success")
+	} else {
+		fmt.Println(signInResMes.Error)
+	}
 	return 
 }

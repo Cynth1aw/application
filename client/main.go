@@ -48,12 +48,12 @@ func main() {
 		fmt.Scanln(&userId)
 		fmt.Print("请输入密码：")
 		fmt.Scanln(&userPwd)
-		err := signIn(userId, userPwd)
-		if err != nil {
-			fmt.Println("sign in fail")
-		} else {
-			fmt.Println("sign in success")
-		}
+		signIn(userId, userPwd)
+		// if err != nil {
+		// 	fmt.Println("sign in fail")
+		// } else {
+		// 	fmt.Println("sign in success")
+		// }
 	} else if option == 2 {
 
 	} else {

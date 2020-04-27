@@ -3,6 +3,7 @@ package message
 const (
 	SignInMesType = "SginMes"
 	SignInResMesType = "SignInResMes"
+	SignUpMesType = "SignUpMes"
 )
 
 type Message struct {
@@ -10,7 +11,7 @@ type Message struct {
 	Data string	`json:"data"`
 }
 
-// 消息类型
+// 登录消息类型
 type SignInMes struct {
 	UserId int `json:"userId"`
 	UserPwd string `json:"userpwd"`
@@ -22,4 +23,9 @@ type SignInMes struct {
 type SignInResMes struct {
 	Code int `json:"code"`
 	Error string `json:"error"`//没有错误返回nil
+}
+
+// 注册类型
+type SignUpMes struct {
+	
 }
