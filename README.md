@@ -15,4 +15,4 @@ redis数据持久化与写入mysql
 PS D:\GoProgram> go build -o client.exe  application/client
 
 # 编译服务器
-PS D:\GoProgram> go build -o server.exe application/server
+PS D:\GoProgram> go build -o server.exe application/server/main
