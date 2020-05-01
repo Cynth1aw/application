@@ -4,8 +4,10 @@ import (
 	"net"
 	"fmt"
 	"encoding/json"
-	"application/common/message"
+	"application/server/model"
 	"application/server/utils"
+	"application/common/message"
+	
 )
 
 // UserProcessor
@@ -28,13 +30,21 @@ func (this *UserProcess) ServerProcessSignin(mes *message.Message) (err error) {
 	resMes.Type = message.SignInResMesType
 	var signInResMes message.SignInResMes
 	
-	// 先暂定一个测试账号 1292033353 wowowowo0
-	if signMes.UserId == 1292033353 && signMes.UserPwd == "wowowowo0" {
-		signInResMes.Code = 200
-	} else {
+	user, err := model.MyUserDao.SignIn(signMes.UserId, signMes.UserPwd)
+	if err != nil {
 		signInResMes.Code = 500
 		signInResMes.Error = "账户不存在..."
+	} else {
+		fmt.Println(user)
+		signInResMes.Code = 200
 	}
+	// // 先暂定一个测试账号 1292033353 wowowowo0
+	// if signMes.UserId == 1292033353 && signMes.UserPwd == "wowowowo0" {
+	// 	signInResMes.Code = 200
+	// } else {
+	// 	signInResMes.Code = 500
+	// 	signInResMes.Error = "账户不存在..."
+	// }
 
 	// 序列化结构体
 	data, err := json.Marshal(signInResMes)

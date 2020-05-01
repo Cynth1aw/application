@@ -3,7 +3,8 @@ package main
 import (
 	"net"
 	"fmt"
-	_"application/common/message"
+	"time"
+	"application/server/model"
 )
 
 func processController(conn net.Conn) {
@@ -20,7 +21,17 @@ func processController(conn net.Conn) {
 	}
 }
 
+// 完成UserDao初始化任务
+func initUserDao() {
+	model.MyUserDao = model.NewUserDao(pool)
+}
+
 func main() {
+	// 当服务器启动时就初始化连接池
+	initPool("0.0.0.0:6379", 16, 0, 300 * time.Second)
+
+	initUserDao()
+
 	listen, err := net.Listen("tcp","0.0.0.0:8888")
 	defer listen.Close()
 
