@@ -1,14 +1,20 @@
-package main
+package process
 
 import (
 	"net"
 	"fmt"
-	_"time"
 	"encoding/binary"
 	"encoding/json"
+	"application/server/utils"
 	"application/common/message"
 )
-func signIn(userId int, userPwd string) (err error) {
+
+type UserProcess struct {
+	// 字段 暂时不需要
+}
+
+
+func (this *UserProcess) SignIn(userId int, userPwd string) (err error) {
 	
 	// 链接服务器
 	conn, err := net.Dial("tcp","0.0.0.0:8888")
@@ -60,7 +66,10 @@ func signIn(userId int, userPwd string) (err error) {
 
 	// 休眠20s
 	// time.Sleep(20 * time.Second)
-	mes, err = readpkg(conn)
+	tf := &utils.Transfer{
+		Conn: conn,
+	}
+	mes, err = tf.Readpkg()
 	if err != nil {
 		fmt.Println("client readpkg() err", err)
 		return
@@ -68,7 +77,16 @@ func signIn(userId int, userPwd string) (err error) {
 	var signInResMes message.SignInResMes
 	err = json.Unmarshal([]byte(mes.Data), &signInResMes)
 	if signInResMes.Code == 200 {
-		fmt.Println("signin success")
+		// fmt.Println("signin success")
+		
+		// 启动一个协程 和服务器保持通讯，
+		// 接收服务器的推送消息并显示在客户端
+		go PercessServerMes(conn)
+
+		// 登陆成功显示菜单
+		for {
+			ShowMenu()
+		}
 	} else {
 		fmt.Println(signInResMes.Error)
 	}

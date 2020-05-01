@@ -40,8 +40,6 @@ func (this *Processor) Process2() (err error) {
 		if err != nil {
 			if err == io.EOF {
 				fmt.Println("客户端退出，服务器自动断开... ")
-			} else {
-				fmt.Println("readpkg() err ")
 			}
 			return err
 		}

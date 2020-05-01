@@ -20,7 +20,6 @@ func (this *UserProcess) ServerProcessSignin(mes *message.Message) (err error) {
 	var signMes message.SignInMes
 	err = json.Unmarshal([]byte(mes.Data), &signMes)
 	if err !=  nil {
-		fmt.Println("json.Unmarshal err")
 		return
 	}
 

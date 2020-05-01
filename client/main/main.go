@@ -3,6 +3,7 @@ package main
 import (
 	"os"
 	"fmt"
+	"application/client/process"
 )
 // 定义两个全局变量 ID 、密码
 var (
@@ -28,7 +29,13 @@ func main() {
 		fmt.Scanf("%d\n", &option)
 		switch option {
 			case 1:
-				// signIn()
+				fmt.Print("请输入账户：")
+				fmt.Scanln(&userId)
+				fmt.Print("请输入密码：")
+				fmt.Scanln(&userPwd)
+				// signIn(userId, userPwd)
+				up := &process.UserProcess{}
+				up.SignIn(userId,userPwd)
 				loop = false
 			case 2:
 				// signUp()
@@ -41,22 +48,5 @@ func main() {
 		if !loop {
 			break
 		}
-	}
-	// 根据用户据的输入显示新的菜单
-	if option == 1 {
-		fmt.Print("请输入账户：")
-		fmt.Scanln(&userId)
-		fmt.Print("请输入密码：")
-		fmt.Scanln(&userPwd)
-		signIn(userId, userPwd)
-		// if err != nil {
-		// 	fmt.Println("sign in fail")
-		// } else {
-		// 	fmt.Println("sign in success")
-		// }
-	} else if option == 2 {
-
-	} else {
-
 	}
 }

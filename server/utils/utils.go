@@ -21,7 +21,6 @@ func (this *Transfer) Readpkg() (mes message.Message,err error) {
 	// 这里是双向的，只有两边都不断开才会阻塞在这里
 	n, err := this.Conn.Read(this.Buf[:4])
 	if n != 4 || err !=  nil {
-		fmt.Println("conn.Read() err")
 		// 返回自定义错误
 		// err = errors.New("read pkg header err")
 		return
@@ -34,7 +33,6 @@ func (this *Transfer) Readpkg() (mes message.Message,err error) {
 	// 根据pkgLen读取消息内容
 	n,err = this.Conn.Read(this.Buf[:pkgLen])
 	if n != int(pkgLen) || err != nil {
-		fmt.Println("conn.Read() err ")
 		// 返回自定义错误
 		// err = errors.New("read pkg body err")
 		return
