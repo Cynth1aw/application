@@ -12,7 +12,7 @@ redis数据持久化与写入mysql
 引入数据库中间件kingshard实现Mysql数据库服务
 
 # 编译client
-PS D:\GoProgram> go build -o client.exe  application/client
+PS D:\GoProgram> go build -o client.exe  application/client/main
 
 # 编译服务器
 PS D:\GoProgram> go build -o server.exe application/server/main
