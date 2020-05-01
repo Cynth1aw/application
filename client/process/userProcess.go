@@ -1,6 +1,7 @@
 package process
 
 import (
+	"os"
 	"net"
 	"fmt"
 	"encoding/binary"
@@ -13,6 +14,63 @@ type UserProcess struct {
 	// 字段 暂时不需要
 }
 
+func (this *UserProcess) SignUp(userId int, userPwd, userName string) (err error){
+	// 链接服务器
+	conn, err := net.Dial("tcp","0.0.0.0:8888")
+	defer conn.Close()
+	if err !=  nil {
+		fmt.Println("net.Dial() err")
+		return
+	}
+	var mes message.Message
+	//类型
+	mes.Type = message.SignInMesType
+
+	// 创建一个signIn结构体
+	var signUpMes message.SignUpMes
+	signUpMes.User.UserId = userId
+	signUpMes.User.UserPwd = userPwd
+	signUpMes.User.UserNam = userName
+
+	data, err := json.Marshal(signUpMes)
+	if err != nil {
+		fmt.Println("json.Marshal() err")
+		return
+	}
+
+	mes.Data = string(data)
+
+	data, err = json.Marshal(mes)
+	if err != nil {
+		fmt.Println("json.Marshal() err")
+		return
+	}
+
+	tf := &utils.Transfer{
+		Conn: conn,
+	}
+	err = tf.Writepkg(data)
+	if err != nil {
+		fmt.Println("SignUp Writepkg() err", err)
+		return
+	}
+
+	mes, err = tf.Readpkg()
+	if err != nil {
+		fmt.Println("client readpkg() err", err)
+		return
+	}
+	var signUpResMes message.SignUpResMes
+	err = json.Unmarshal([]byte(mes.Data), &signUpResMes)
+	if signUpResMes.Code == 200 {
+		fmt.Println("signup success")
+		os.Exit(0)
+	} else {
+		fmt.Println(signUpResMes.Error)
+		os.Exit(0)
+	}
+	return
+}
 
 func (this *UserProcess) SignIn(userId int, userPwd string) (err error) {
 	

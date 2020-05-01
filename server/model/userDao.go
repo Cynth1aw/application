@@ -2,6 +2,7 @@ package model
 
 import (
 	"encoding/json"
+	"application/common/message"
 	"github.com/garyburd/redigo/redis"
 )
 
@@ -49,6 +50,28 @@ func (this *UserDao) SignIn(userId int, userPwd string) (user *User, err error) 
 	}
 	if userPwd != user.UserPwd {
 		err = ERROR_USER_PWD
+		return
+	}
+	return
+}
+
+// 校验参数是否正确
+func (this *UserDao) SignUp(user *message.User) (err error) {
+	conn := this.pool.Get()
+	defer conn.Close()
+	_, err = this.getUserById(conn, user.UserId)
+	if err == nil {
+		err = ERROR_USER_XISTS
+		return
+	}
+
+	// 序列化写库完成注册
+	data, err := json.Marshal(user)
+	if err == nil {
+		return
+	}
+	_, err = conn.Do("HSet", "users", user.UserId, string(data))
+	if err == nil {
 		return
 	}
 	return

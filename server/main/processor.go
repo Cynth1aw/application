@@ -23,7 +23,11 @@ func (this *Processor) ServerProcessMes(mes *message.Message) (err error) {
 			}
 			err = up.ServerProcessSignin(mes)
 		case message.SignUpMesType:
-			// 处理注册
+			// 处理注册 TODO
+			up := &processcon.UserProcess{
+				Conn: this.Conn,
+			}
+			err = up.ServerProcessSignup(mes)
 		default:
 			fmt.Println("消息类型不存在........")
 	} 

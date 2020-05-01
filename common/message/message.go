@@ -4,6 +4,7 @@ const (
 	SignInMesType = "SginMes"
 	SignInResMesType = "SignInResMes"
 	SignUpMesType = "SignUpMes"
+	SignUpResMesType = "SignUpResMes"
 )
 
 type Message struct {
@@ -27,5 +28,11 @@ type SignInResMes struct {
 
 // 注册类型
 type SignUpMes struct {
-	
+	User User `json:"user"`
+}
+
+// 注册响应类型
+type SignUpResMes struct {
+	Code int `json:"code"`
+	Error string `json:"error"`//没有错误返回nil
 }

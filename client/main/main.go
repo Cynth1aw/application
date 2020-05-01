@@ -9,6 +9,7 @@ import (
 var (
 	userId int
 	userPwd string
+	userName string
 )
 
 func main() {
@@ -38,7 +39,14 @@ func main() {
 				up.SignIn(userId,userPwd)
 				loop = false
 			case 2:
-				// signUp()
+				fmt.Print("请输入账户：")
+				fmt.Scanln(&userId)
+				fmt.Print("请输入密码：")
+				fmt.Scanln(&userPwd)
+				fmt.Print("请输入密码：")
+				fmt.Scanln(&userName)
+				up := &process.UserProcess{}
+				up.SignUp(userId, userPwd, userName)
 				loop = false
 			case 3:
 				os.Exit(0)
