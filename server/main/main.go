@@ -26,12 +26,15 @@ func initUserDao() {
 	model.MyUserDao = model.NewUserDao(pool)
 }
 
-func main() {
+func init() {
 	// 当服务器启动时就初始化连接池
 	initPool("0.0.0.0:6379", 16, 0, 300 * time.Second)
 
 	initUserDao()
+}
 
+func main() {
+	
 	listen, err := net.Listen("tcp","0.0.0.0:8888")
 	defer listen.Close()
 

@@ -17,7 +17,6 @@ type Transfer struct {
 // 读
 func (this *Transfer) Readpkg() (mes message.Message,err error) {
 
-	fmt.Println("读取客户端发送的数据......")
 	// 这里是双向的，只有两边都不断开才会阻塞在这里
 	n, err := this.Conn.Read(this.Buf[:4])
 	if n != 4 || err !=  nil {
@@ -41,7 +40,6 @@ func (this *Transfer) Readpkg() (mes message.Message,err error) {
 	// 把pkgLen反序列化成message类型
 	err = json.Unmarshal(this.Buf[:pkgLen],&mes)
 	if err != nil {
-		fmt.Println("json.Unmarshal() err ")
 		// 返回自定义错误
 		// err = errors.New("read pkg header err")
 		return

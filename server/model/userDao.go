@@ -1,6 +1,7 @@
 package model
 
 import (
+	_"fmt"
 	"encoding/json"
 	"application/common/message"
 	"github.com/garyburd/redigo/redis"
@@ -67,11 +68,11 @@ func (this *UserDao) SignUp(user *message.User) (err error) {
 
 	// 序列化写库完成注册
 	data, err := json.Marshal(user)
-	if err == nil {
+	if err != nil {
 		return
 	}
 	_, err = conn.Do("HSet", "users", user.UserId, string(data))
-	if err == nil {
+	if err != nil {
 		return
 	}
 	return

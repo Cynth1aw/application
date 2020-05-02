@@ -24,7 +24,7 @@ func (this *UserProcess) SignUp(userId int, userPwd, userName string) (err error
 	}
 	var mes message.Message
 	//类型
-	mes.Type = message.SignInMesType
+	mes.Type = message.SignUpMesType
 
 	// 创建一个signIn结构体
 	var signUpMes message.SignUpMes

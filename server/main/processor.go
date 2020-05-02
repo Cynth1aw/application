@@ -14,7 +14,6 @@ type Processor struct {
 
 // 根据消息类型不同决定用哪个函数来处理
 func (this *Processor) ServerProcessMes(mes *message.Message) (err error) {
-	
 	switch mes.Type {
 		case message.SignInMesType:
 			// 处理登录

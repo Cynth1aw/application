@@ -43,7 +43,7 @@ func main() {
 				fmt.Scanln(&userId)
 				fmt.Print("请输入密码：")
 				fmt.Scanln(&userPwd)
-				fmt.Print("请输入密码：")
+				fmt.Print("请输入名称：")
 				fmt.Scanln(&userName)
 				up := &process.UserProcess{}
 				up.SignUp(userId, userPwd, userName)
