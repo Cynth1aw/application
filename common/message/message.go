@@ -23,6 +23,7 @@ type SignInMes struct {
 // 200	登录成功
 type SignInResMes struct {
 	Code int `json:"code"`
+	UsersId []int // 保存用户id的切片
 	Error string `json:"error"`//没有错误返回nil
 }
 

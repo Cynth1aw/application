@@ -135,7 +135,11 @@ func (this *UserProcess) SignIn(userId int, userPwd string) (err error) {
 	var signInResMes message.SignInResMes
 	err = json.Unmarshal([]byte(mes.Data), &signInResMes)
 	if signInResMes.Code == 200 {
-		// fmt.Println("signin success")
+		// 显示在线的用户
+		for _, v := range signInResMes.UsersId {
+			fmt.Println("用户ID = ",v)
+		}
+		// ======================
 		
 		// 启动一个协程 和服务器保持通讯，
 		// 接收服务器的推送消息并显示在客户端

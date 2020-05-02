@@ -13,6 +13,8 @@ import (
 // UserProcessor
 type UserProcess struct {
 	Conn net.Conn
+	// 增加一个字段，区分每个Conn的用户
+	UserId int
 }
 
 // 处理注册的请求
@@ -85,14 +87,14 @@ func (this *UserProcess) ServerProcessSignin(mes *message.Message) (err error) {
 	} else {
 		fmt.Println(user)
 		signInResMes.Code = 200
+		// 登陆成功把用户存到在线列表的结构体
+		this.UserId = signMes.UserId
+		userMgr.AddOnlineUser(this)
+
+		for id, _ := range userMgr.onlineUsers {
+			signInResMes.UsersId = append(signInResMes.UsersId, id)
+		}
 	}
-	// // 先暂定一个测试账号 1292033353 wowowowo0
-	// if signMes.UserId == 1292033353 && signMes.UserPwd == "wowowowo0" {
-	// 	signInResMes.Code = 200
-	// } else {
-	// 	signInResMes.Code = 500
-	// 	signInResMes.Error = "账户不存在..."
-	// }
 
 	// 序列化结构体
 	data, err := json.Marshal(signInResMes)
