@@ -5,4 +5,5 @@ type User struct {
 	UserId int `json:"userId"`
 	UserPwd string `json:"userPwd"`
 	UserNam string `json:"userName"`
+	UserStatus int `json:"userStatus"`	
 }

@@ -4,7 +4,9 @@ import (
 	"os"
 	"fmt"
 	"net"
+	"encoding/json"
 	"application/server/utils"
+	"application/common/message"
 )
 
 // 显示登陆成功后的界面
@@ -24,7 +26,8 @@ func ShowMenu() {
 	fmt.Scanf("%d\n", &option)
 	switch option {
 		case 1:
-			fmt.Println("在线列表")
+			// fmt.Println("在线列表")
+			outputOnlineUser()
 		case 2:
 			fmt.Println("发送消息")
 		case 3:
@@ -49,6 +52,15 @@ func PercessServerMes(conn net.Conn) {
 			fmt.Println("tf.Readpkg() err = ", err)
 			return
 		}
-		fmt.Println(mes)
+		// fmt.Println(mes)
+		switch mes.Type {
+			case message.NotifyUserStatusMesType:
+				var notifyUserStatusMes message.NotifyUserStatusMes
+				json.Unmarshal([]byte(mes.Data), &notifyUserStatusMes)
+
+				UpdataUserStatus(&notifyUserStatusMes)
+			default :
+				fmt.Println("error...")
+		}
 	}
 }

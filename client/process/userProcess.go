@@ -137,7 +137,15 @@ func (this *UserProcess) SignIn(userId int, userPwd string) (err error) {
 	if signInResMes.Code == 200 {
 		// 显示在线的用户
 		for _, v := range signInResMes.UsersId {
+			if v == userId {
+				continue
+			}
 			fmt.Println("用户ID = ",v)
+			user := &message.User{
+				UserId : v,
+				UserStatus : message.UserOnline,
+			}
+			onlineUsers[v] = user
 		}
 		// ======================
 		

@@ -17,6 +17,44 @@ type UserProcess struct {
 	UserId int
 }
 
+// 通知所有在线的用户的方法
+func (this *UserProcess) NotifyOthersOnlineUser(userId int) {
+	for id, up := range userMgr.onlineUsers {
+		// 过滤自己
+		if id == this.UserId {
+			continue
+		}
+		// 开始通知 -----------这里.............
+		up.NotifyMeOnlineUser(this.UserId)
+	} 
+}
+
+func (this *UserProcess) NotifyMeOnlineUser(userId int) {
+	var mes message.Message
+	mes.Type = message.NotifyUserStatusMesType
+
+	var notifyUserStatusMes message.NotifyUserStatusMes
+	notifyUserStatusMes.UserId = userId
+	notifyUserStatusMes.Status = message.UserOnline
+	data, err := json.Marshal(notifyUserStatusMes)
+	if err !=  nil {
+		return
+	}
+
+	mes.Data = string(data)
+	data, err = json.Marshal(mes)
+	if err !=  nil {
+		return
+	}
+
+	// 数据已准备好，准备返回
+	tf := &utils.Transfer{
+		Conn: this.Conn,
+	}
+	err = tf.Writepkg(data)
+	return
+}
+
 // 处理注册的请求
 func (this *UserProcess) ServerProcessSignup(mes *message.Message) (err error) {
 	// 先从mes中取出mes.Data
@@ -83,13 +121,15 @@ func (this *UserProcess) ServerProcessSignin(mes *message.Message) (err error) {
 	user, err := model.MyUserDao.SignIn(signMes.UserId, signMes.UserPwd)
 	if err != nil {
 		signInResMes.Code = 500
-		signInResMes.Error = "账户不存在..."
+		signInResMes.Error = "Account does not exist..."
 	} else {
 		fmt.Println(user)
 		signInResMes.Code = 200
 		// 登陆成功把用户存到在线列表的结构体
 		this.UserId = signMes.UserId
 		userMgr.AddOnlineUser(this)
+
+		this.NotifyOthersOnlineUser(signMes.UserId)
 
 		for id, _ := range userMgr.onlineUsers {
 			signInResMes.UsersId = append(signInResMes.UsersId, id)
