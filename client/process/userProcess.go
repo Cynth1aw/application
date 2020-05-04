@@ -135,6 +135,10 @@ func (this *UserProcess) SignIn(userId int, userPwd string) (err error) {
 	var signInResMes message.SignInResMes
 	err = json.Unmarshal([]byte(mes.Data), &signInResMes)
 	if signInResMes.Code == 200 {
+		// 初始化CurUser
+		CurUser.Conn = conn
+		CurUser.UserId = userId
+		CurUser.UserStatus = message.UserOnline
 		// 显示在线的用户
 		for _, v := range signInResMes.UsersId {
 			if v == userId {

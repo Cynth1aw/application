@@ -6,6 +6,7 @@ const (
 	SignUpMesType = "SignUpMes"
 	SignUpResMesType = "SignUpResMes"
 	NotifyUserStatusMesType = "NotifyUserStatusMes"
+	SmsMesType = "SmsMes"
 )
 
 // 用户在线状态的常量
@@ -50,4 +51,10 @@ type SignUpResMes struct {
 type NotifyUserStatusMes struct {
 	UserId int `json:"userId"`
 	Status int `json:"status"`
+}
+
+// 发送消息
+type SmsMes struct {
+	Content string `json:"content"`
+	User	// 继承
 }

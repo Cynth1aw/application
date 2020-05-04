@@ -11,8 +11,8 @@ import (
 
 // 显示登陆成功后的界面
 func ShowMenu() {
-	fmt.Println("----------xxxxxxxxx登陆成功------------")
-	fmt.Println("             1 显示在线用户列表")
+	fmt.Println("----------xxxxxxxxxLanded successfully------------")
+	fmt.Println("             1 Online user list")
 	fmt.Println("             2 发送消息")
 	fmt.Println("             3 信息列表")
 	fmt.Println("             4 退出登录")
@@ -22,6 +22,9 @@ func ShowMenu() {
 
 	// 1、接收用户的输入
 	var option int
+	var content string
+	// 定义在外部，之后不用在重复定义
+	smsProcess := &SmsProcess{}
 	// 这里使用Scanf 要注意加\n
 	fmt.Scanf("%d\n", &option)
 	switch option {
@@ -29,14 +32,17 @@ func ShowMenu() {
 			// fmt.Println("在线列表")
 			outputOnlineUser()
 		case 2:
-			fmt.Println("发送消息")
+			// fmt.Println("发送消息")
+			fmt.Println("请输入：")
+			fmt.Scanln(&content)
+			smsProcess.SendGroupMes(content)
 		case 3:
 			fmt.Println("信息列表")
 		case 4:
 			// 这里可以发送一条消息，通知服务器
 			os.Exit(0)
 		default:
-			fmt.Print("输入有误，请重新输入\n")
+			fmt.Print("The input is incorrect, please re-enter\n")
 	}
 }
 
@@ -59,6 +65,9 @@ func PercessServerMes(conn net.Conn) {
 				json.Unmarshal([]byte(mes.Data), &notifyUserStatusMes)
 
 				UpdataUserStatus(&notifyUserStatusMes)
+			case message.SmsMesType:
+				// 处理服务器转发消息返回来的内容
+				outputGroupMes(&mes)
 			default :
 				fmt.Println("error...")
 		}

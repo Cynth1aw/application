@@ -2,11 +2,13 @@ package process
 
 import (
 	"fmt"
+	"application/client/model"
 	"application/common/message"
 )
 
 // 客户端维护的在线用户map
 var onlineUsers map[int]*message.User = make(map[int]*message.User)
+var CurUser model.CurUser
 
 // 在客户端显示当前在线的用户
 func outputOnlineUser() {

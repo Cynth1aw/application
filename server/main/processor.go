@@ -27,6 +27,10 @@ func (this *Processor) ServerProcessMes(mes *message.Message) (err error) {
 				Conn: this.Conn,
 			}
 			err = up.ServerProcessSignup(mes)
+		case message.SmsMesType:
+			// 服务器转发消息给所有在线的用户
+			smsProcess := &processcon.SmeProcess{}
+			smsProcess.SendGroupMes(mes)
 		default:
 			fmt.Println("消息类型不存在........")
 	} 
